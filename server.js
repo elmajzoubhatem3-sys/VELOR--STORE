@@ -25,10 +25,6 @@ const STORE_PASS = "ukgyrzxatkkuvbqd";
 const STORE_PHONE = "+96171660580";
 
 // ✅ إعدادات الترجمة
-// حطهم في .env أو Environment Variables
-// مثال:
-// TRANSLATE_API_URL=https://your-translation-api.com/translate
-// TRANSLATE_API_KEY=xxxx
 const TRANSLATE_API_URL = process.env.TRANSLATE_API_URL || "";
 const TRANSLATE_API_KEY = process.env.TRANSLATE_API_KEY || "";
 
@@ -58,7 +54,7 @@ async function sendMail(to, subject, text) {
 function normalizeCategories(categoryValue) {
   return String(categoryValue || "")
     .split(",")
-    .map(x => x.trim())
+    .map((x) => x.trim())
     .filter(Boolean)
     .filter((x, i, arr) => arr.indexOf(x) === i)
     .join(",");
@@ -113,9 +109,9 @@ async function translateText(text, sourceLang, targetLang) {
 
     return cleanText(
       data.translation ||
-      data.translatedText ||
-      data.text ||
-      ""
+        data.translatedText ||
+        data.text ||
+        ""
     );
   } catch (err) {
     console.error("Translate request failed:", err);
@@ -140,8 +136,6 @@ async function buildTranslatedFields({
   const inputTitle = cleanText(title);
   const inputDescription = cleanText(description);
 
-  // نعتبر title/description هما النص الأساسي المدخل
-  // ونخزنهم أيضًا حسب لغة المصدر
   let title_ar = src === "ar" ? inputTitle : "";
   let title_en_final = src === "en" ? inputTitle : cleanText(title_en);
 
@@ -154,7 +148,6 @@ async function buildTranslatedFields({
   let description_fr_final = cleanText(description_fr);
   let description_es_final = cleanText(description_es);
 
-  // إذا المصدر عربي → ترجمة الإنجليزي/الفرنسي/الإسباني إن كانوا فاضيين
   if (src === "ar") {
     if (!title_en_final && inputTitle) {
       title_en_final = await translateText(inputTitle, "ar", "en");
@@ -177,7 +170,6 @@ async function buildTranslatedFields({
     }
   }
 
-  // إذا المصدر إنكليزي → ترجمة العربي/الفرنسي/الإسباني إن كانوا فاضيين
   if (src === "en") {
     if (!title_ar && inputTitle) {
       title_ar = await translateText(inputTitle, "en", "ar");
@@ -200,7 +192,6 @@ async function buildTranslatedFields({
     }
   }
 
-  // fallback حتى ما ينكسر الموقع
   if (!title_ar) title_ar = inputTitle || title_en_final || title_fr_final || title_es_final || "";
   if (!title_en_final) title_en_final = src === "en" ? inputTitle : "";
   if (!description_ar) description_ar = inputDescription || description_en_final || description_fr_final || description_es_final || "";
@@ -218,18 +209,18 @@ async function buildTranslatedFields({
   };
 }
 
-// Helpers: build bilingual/4-lang texts
+// Helpers
 function itemsBlockAR(detailed) {
-  return detailed.map(x => `- ${x.title} ×${x.qty}`).join("\n");
+  return detailed.map((x) => `- ${x.title} ×${x.qty}`).join("\n");
 }
 function itemsBlockEN(detailed) {
-  return detailed.map(x => `- ${x.title} x${x.qty}`).join("\n");
+  return detailed.map((x) => `- ${x.title} x${x.qty}`).join("\n");
 }
 function itemsBlockFR(detailed) {
-  return detailed.map(x => `- ${x.title} x${x.qty}`).join("\n");
+  return detailed.map((x) => `- ${x.title} x${x.qty}`).join("\n");
 }
 function itemsBlockES(detailed) {
-  return detailed.map(x => `- ${x.title} x${x.qty}`).join("\n");
+  return detailed.map((x) => `- ${x.title} x${x.qty}`).join("\n");
 }
 
 function buildCustomerOrderEmail({ orderId, total, detailed }) {
@@ -331,7 +322,7 @@ const storage = multer.diskStorage({
       .replace(/\s+/g, "-")
       .replace(/[^\w.\-]/g, "");
     cb(null, `${Date.now()}-${safe}`);
-  },
+  }
 });
 const upload = multer({ storage });
 
@@ -343,6 +334,7 @@ app.use(
 );
 app.use(cors());
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
 app.use(rateLimit({ windowMs: 60_000, max: 120 }));
 
@@ -442,6 +434,7 @@ ensureColumns();
 function auth(req, res, next) {
   const token = (req.headers.authorization || "").replace("Bearer ", "");
   if (!token) return res.status(401).json({ error: "No token" });
+
   try {
     req.admin = jwt.verify(token, JWT_SECRET);
     next();
@@ -467,6 +460,7 @@ app.get("/api/banners", (req, res) => {
     .filter((f) => /^banner/i.test(f))
     .filter((f) => /\.(png|jpg|jpeg|webp|gif)$/i.test(f))
     .sort((a, b) => a.localeCompare(b));
+
   res.json(files);
 });
 
@@ -474,14 +468,16 @@ app.get("/api/banners", (req, res) => {
 app.post("/api/admin/login", (req, res) => {
   const { email, password } = req.body || {};
   const admin = db.prepare("SELECT * FROM admins WHERE email=?").get(email);
+
   if (!admin) return res.status(401).json({ error: "Bad credentials" });
 
   const ok = bcrypt.compareSync(password, admin.password_hash);
   if (!ok) return res.status(401).json({ error: "Bad credentials" });
 
   const token = jwt.sign({ id: admin.id, email: admin.email }, JWT_SECRET, {
-    expiresIn: "1000d",
+    expiresIn: "1000d"
   });
+
   res.json({ token });
 });
 
@@ -505,7 +501,7 @@ app.get("/api/products", (req, res) => {
   res.json(rows);
 });
 
-// ✅ Add product (with auto translation if API configured)
+// ✅ Add product
 app.post("/api/admin/products", auth, upload.single("image"), async (req, res) => {
   try {
     const {
@@ -579,7 +575,7 @@ app.post("/api/admin/products", auth, upload.single("image"), async (req, res) =
   }
 });
 
-// ✅ Update product (with auto translation if API configured)
+// ✅ Update product
 app.put("/api/admin/products/:id", auth, upload.single("image"), async (req, res) => {
   try {
     const id = Number(req.params.id);
@@ -622,7 +618,7 @@ app.put("/api/admin/products/:id", auth, upload.single("image"), async (req, res
       description_es
     });
 
-    const image = req.file ? ("/image/" + req.file.filename) : oldProduct.image;
+    const image = req.file ? "/image/" + req.file.filename : oldProduct.image;
 
     db.prepare(`
       UPDATE products
@@ -675,7 +671,6 @@ app.delete("/api/admin/products/:id", auth, (req, res) => {
   if (!product) return res.status(404).json({ error: "Not found" });
 
   db.prepare("DELETE FROM products WHERE id=?").run(id);
-
   res.json({ success: true });
 });
 
@@ -747,7 +742,7 @@ app.post("/api/orders", (req, res) => {
         product_id: p.id,
         title: p.title,
         price: p.price,
-        qty,
+        qty
       });
 
       db.prepare("UPDATE products SET stock = stock - ? WHERE id=?").run(qty, p.id);
@@ -775,8 +770,7 @@ app.post("/api/orders", (req, res) => {
   try {
     const result = placeOrder();
 
-    const shopText =
-`New Order #${result.order_id}
+    const shopText = `New Order #${result.order_id}
 
 Name: ${name}
 Phone: ${phone}
@@ -784,7 +778,7 @@ Address: ${address}
 Email: ${email}
 
 Items:
-${result.detailed.map(x => `${x.title} x${x.qty}`).join("\n")}
+${result.detailed.map((x) => `${x.title} x${x.qty}`).join("\n")}
 
 Total: ${result.total}$`;
 
@@ -794,7 +788,7 @@ Total: ${result.total}$`;
       const customerText = buildCustomerOrderEmail({
         orderId: result.order_id,
         total: result.total,
-        detailed: result.detailed,
+        detailed: result.detailed
       });
 
       sendMail(email, `VELORÉ — Order #${result.order_id} Confirmed`, customerText);
@@ -832,4 +826,11 @@ app.get("/api/test-email", async (req, res) => {
   }
 });
 
-app.listen(PORT, () => console.log(`VELORÉ running http://localhost:${PORT}`));
+// ✅ fallback for non-API pages
+app.get(/^\/(?!api).*/, (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "index.html"));
+});
+
+app.listen(PORT, "0.0.0.0", () => {
+  console.log(`VELORÉ running on port ${PORT}`);
+});
