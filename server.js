@@ -14,7 +14,7 @@ import { fileURLToPath } from "url";
 import nodemailer from "nodemailer";
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 10000;
 const JWT_SECRET = process.env.JWT_SECRET || "CHANGE_THIS_SECRET_NOW";
 
 // 📧 ايميل المتجر
