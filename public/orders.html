@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Orders - Admin</title>
+  <link rel="stylesheet" href="/styles.css"/>
+  <style>
+    .panel{border:1px solid rgba(255,255,255,.12);border-radius:18px;background:rgba(255,255,255,.06);padding:16px;margin-top:14px}
+    table{width:100%;border-collapse:collapse}
+    th,td{padding:10px;border-bottom:1px solid rgba(255,255,255,.12);text-align:right;vertical-align:top}
+    .muted{opacity:.8;font-size:13px;margin-top:6px}
+    .btnB{padding:10px 12px;border-radius:12px;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.06);cursor:pointer;font-weight:900;color:#fff}
+  </style>
+</head>
+<body>
+  <header class="top">
+    <div class="brand">Orders</div>
+    <div class="actions">
+      <a class="btnB" href="/admin.html" style="text-decoration:none;display:inline-flex;align-items:center;justify-content:center;">⬅ رجوع للأدمن</a>
+      <button class="btnB" id="deleteAll" type="button">حذف جميع الطلبات</button>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div class="panel">
+      <div class="muted">لازم تكون عامل Login من admin.html (التوكن مخزّن).</div>
+      <div id="msg" class="muted"></div>
+
+      <div style="overflow:auto;margin-top:10px">
+        <table>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>الزبون</th>
+              <th>المنتجات</th>
+              <th>المجموع</th>
+              <th>الوقت</th>
+              <th>العملية</th> <!-- إضافة العمود -->
+            </tr>
+          </thead>
+          <tbody id="rows"></tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+
+  <script src="/orders.js"></script>
+</body>
+</html>

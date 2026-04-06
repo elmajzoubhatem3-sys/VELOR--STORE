@@ -3,14 +3,14 @@ body{
   margin:0;
   font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;
 
-  background: #FFFFF0; /* Ivory */
+  background: #HHHHHH; /* WHITE */
   color:#2e2e2e;
 }
 .wrap{max-width:1150px;margin:0 auto;padding:18px}
 .top{
   background:#0a0a0c;
   border-bottom:1px solid #d9cfc2;
-  color:#9CAF88;
+  color:#FFFFFF;
 }
 .brand{font-weight:900;font-size:20px}
 .topline{opacity:.85;margin-top:6px}
@@ -26,7 +26,7 @@ border: non;cursor:pointer;font-weight:800}
 .hero p{margin:0;opacity:.9}
 .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:14px}
 @media(max-width:1000px){.grid{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:520px){.grid{grid-template-columns:1fr}}
+@media(max-width:520px){.grid{grid-template-columns:repeat(3,1fr);gap:8px}}
 .card{border:1px solid rgba(255,255,255,.12);border-radius:18px;background:rgba(255,255,255,.06);overflow:hidden;display:flex;flex-direction:column}
 .card img{width:100%;aspect-ratio:1/1;object-fit:cover}
 .card .p{padding:12px;display:flex;flex-direction:column;gap:6px}
@@ -92,4 +92,96 @@ color: #000;;cursor:pointer;font-weight:900}
   width: 100px;
   height: 100px;
   object-fit: contain;
+}
+
+/* ===== 3-dots menu ===== */
+.moreMenu{
+  position:absolute;
+  top:12px;
+  left:12px; /* الزاوية اليسرى */
+  z-index:20;
+}
+
+.moreBtn{
+  width:40px;
+  height:40px;
+  border-radius:12px;
+  border:1px solid rgba(255,255,255,.18);
+  background:rgba(255,255,255,.06);
+  color:#fff;
+  cursor:pointer;
+  font-size:22px;
+  line-height:1;
+}
+
+.moreDropdown{
+  margin-top:8px;
+  width:220px;
+  border-radius:14px;
+  border:1px solid rgba(255,255,255,.18);
+  background:#0a0a0c;
+  padding:10px;
+  box-shadow:0 10px 30px rgba(0,0,0,.35);
+}
+
+.menuSectionTitle{
+  opacity:.8;
+  font-size:12px;
+  margin:4px 0 8px;
+}
+
+.menuItem{
+  width:100%;
+  text-align:right;
+  padding:10px 10px;
+  border-radius:12px;
+  border:0;
+  background:rgba(255,255,255,.06);
+  color:#fff;
+  cursor:pointer;
+  font-weight:800;
+  margin-bottom:6px;
+}
+
+.menuItem:hover{
+  background:rgba(255,255,255,.12);
+}
+
+.menuDivider{
+  height:1px;
+  background:rgba(255,255,255,.12);
+  margin:10px 0;
+}
+
+.menuLink{
+  display:block;
+  padding:10px 10px;
+  border-radius:12px;
+  color:#fff;
+  text-decoration:none;
+  background:rgba(255,255,255,.06);
+  margin-bottom:6px;
+  font-weight:800;
+}
+
+.menuLink:hover{
+  background:rgba(255,255,255,.12);
+}
+
+/* Move 3-dots menu depending on direction */
+html[dir="rtl"] .moreMenu { left: 12px; right: auto; }
+html[dir="ltr"] .moreMenu { right: 12px; left: auto; }
+
+.remove-btn{
+  border:0;
+  background:transparent;
+  cursor:pointer;
+  font-size:20px;
+  color:#FFFFFF;   /* أبيض واضح */
+  margin-left:8px;
+}
+
+.remove-btn:hover{
+  color:#ff0000;
+  transform:scale(1.1);
 }

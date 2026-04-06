@@ -2,7 +2,7 @@ import { db } from "./db.js";
 import bcrypt from "bcryptjs";
 
 // ===== 1) ADMIN =====
-const email = "admin@novacart.com";
+const email = "admin@veloré.com";
 const password = "ChangeMe123!";
 const hash = bcrypt.hashSync(password, 10);
 
