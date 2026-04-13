@@ -3,194 +3,80 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>Admin</title>
+  <title>NovaCart Admin</title>
   <link rel="stylesheet" href="/styles.css"/>
   <style>
     .adminWrap{max-width:900px;margin:0 auto;padding:18px}
     .panel{border:1px solid rgba(255,255,255,.12);border-radius:18px;background:rgba(255,255,255,.06);padding:16px;margin-top:14px}
     .row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
     @media(max-width:700px){.row2{grid-template-columns:1fr}}
-
-    .btnA{padding:12px 14px;border-radius:12px;border:0;background:#ff7a00;cursor:pointer;font-weight:900}
-    .btnB{padding:12px 14px;border-radius:12px;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.06);cursor:pointer;font-weight:900;color:#fff}
-    .hint{opacity:.85;font-size:13px;margin-top:8px}
-
-    .listHead{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:14px}
-    .listBox{margin-top:10px}
-
-    .subTitle{
-      margin:18px 0 8px;
-      font-weight:900;
-      opacity:.95;
-      font-size:15px;
-    }
-
-    .sep{
-      height:1px;
-      background:rgba(255,255,255,.12);
-      margin:18px 0;
-      border:0;
-    }
-
-    .multiSelect{
-      min-height:140px;
-      padding:10px;
-      border-radius:12px;
-    }
+    .adminWrap h2{margin:0 0 10px}
+    .hint{opacity:.8;font-size:13px;margin-top:6px}
+    .ok{color:#22c55e;font-weight:800}
+    .err{color:#ff6b6b;font-weight:800}
+    .btn2{padding:12px 14px;border-radius:12px;border:1px solid rgba(255,255,255,.18);background:#ff7a00;cursor:pointer;font-weight:900;color:#111}
+    .btn3{padding:12px 14px;border-radius:12px;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.08);cursor:pointer;font-weight:900;color:#fff}
+    input,select,textarea{width:100%}
+    textarea{min-height:90px;resize:vertical}
   </style>
 </head>
 <body>
 
   <header class="top">
-    <div class="brand">Admin Panel</div>
-    <div class="topline">تسجيل دخول + إضافة وتعديل منتجات</div>
+    <div class="brand">NovaCart — Admin</div>
+    <div class="topline">إضافة منتجات بسهولة بدون تعديل كود</div>
     <div class="actions">
-      <a class="btnB" href="/" style="text-decoration:none;display:inline-flex;align-items:center;justify-content:center;">⬅ رجوع للمتجر</a>
-      <button class="btnB" id="logout" type="button">تسجيل خروج</button>
+      <a href="/" class="btn3" style="text-decoration:none;display:inline-flex;align-items:center;justify-content:center;">⬅ رجوع للمتجر</a>
+      <button id="logout" class="btn3">تسجيل خروج</button>
     </div>
   </header>
 
   <main class="adminWrap">
 
-    <!-- LOGIN -->
     <section class="panel" id="loginPanel">
-      <h2 style="margin:0 0 10px;">تسجيل دخول</h2>
+      <h2>تسجيل دخول</h2>
       <form id="loginForm" class="checkout">
-        <input name="email" required placeholder="الإيميل" value="admin@veloré.com"/>
+        <input name="email" required placeholder="الإيميل" value="admin@novacart.com"/>
         <input name="password" required placeholder="الباسورد" type="password" value="ChangeMe123!"/>
-        <button class="btnA" type="submit">Login</button>
-        <div class="hint" id="loginMsg"></div>
+        <button class="btn2" type="submit">Login</button>
+        <div id="loginMsg" class="hint"></div>
       </form>
     </section>
 
-    <!-- ADD PRODUCT -->
     <section class="panel" id="addPanel" style="display:none;">
-      <h2 style="margin:0 0 10px;">إضافة منتج</h2>
+      <h2>إضافة منتج</h2>
 
-      <form id="productForm" class="checkout" enctype="multipart/form-data">
+      <div class="hint">📌 الصور: حط الصورة داخل <b>public/image</b> وخلي المسار مثل: <b>/image/pot.jpg</b></div>
 
-        <div class="subTitle">لغة الإدخال الأساسية</div>
-        <select name="source_lang" required>
-          <option value="ar">العربية</option>
-          <option value="en">English</option>
-        </select>
-
-        <div class="subTitle">الاسم والوصف الأساسي</div>
-
+      <form id="productForm" class="checkout" style="margin-top:10px;">
         <div class="row2">
           <input name="title" required placeholder="اسم المنتج"/>
-          <input name="price" required placeholder="السعر" type="number" step="0.01" min="0"/>
+          <input name="price" required placeholder="السعر (مثال: 12.99)" type="number" step="0.01" min="0"/>
         </div>
 
-        <input name="description" placeholder="وصف المنتج"/>
-
-        <div class="subTitle">ترجمة الاسم (اختياري)</div>
-
         <div class="row2">
-          <input name="title_en" placeholder="اسم المنتج (English)"/>
-          <input name="title_fr" placeholder="اسم المنتج (Français)"/>
-        </div>
-
-        <input name="title_es" placeholder="اسم المنتج (Español)"/>
-
-        <div class="subTitle">ترجمة الوصف (اختياري)</div>
-
-        <div class="row2">
-          <input name="description_en" placeholder="وصف المنتج (English)"/>
-          <input name="description_fr" placeholder="وصف المنتج (Français)"/>
-        </div>
-
-        <input name="description_es" placeholder="وصف المنتج (Español)"/>
-
-        <div class="subTitle">معلومات إضافية</div>
-
-        <div class="row2">
-          <select name="category" class="multiSelect" multiple required>
+          <select name="category" required>
+            <option value="">اختار الفئة</option>
             <option value="Home & Kitchen">Home & Kitchen البيت والمطبخ</option>
             <option value="Toys">Toys الألعاب</option>
             <option value="Electronics">Electronics كهربائيات</option>
             <option value="Beauty">Beauty جمال</option>
             <option value="Fashion">Fashion أزياء</option>
           </select>
-          <input name="stock" placeholder="الستوك" type="number" step="1" min="0" value="10"/>
+          <input name="stock" placeholder="الستوك (مثال: 50)" type="number" step="1" min="0" value="10"/>
         </div>
 
-        <div class="hint">يمكنك اختيار أكثر من فئة للمنتج.</div>
+        <input name="image" required placeholder="صورة المنتج (مثال: /image/pot.jpg)"/>
+        <textarea name="description" required placeholder="وصف المنتج"></textarea>
 
-        <input type="file" name="image" accept="image/*" required />
-
-        <button class="btnA" type="submit">إضافة المنتج</button>
-        <div class="hint" id="prodMsg"></div>
+        <button class="btn2" type="submit">إضافة المنتج</button>
+        <div id="prodMsg" class="hint"></div>
       </form>
 
-      <hr class="sep"/>
+      <hr style="border:0;border-top:1px solid rgba(255,255,255,.12);margin:14px 0"/>
 
-      <!-- EDIT PRODUCT -->
-      <h2 style="margin:0 0 10px;">تعديل منتج</h2>
-
-      <form id="editForm" class="checkout" enctype="multipart/form-data">
-        <input id="editId" name="id" type="hidden"/>
-
-        <div class="subTitle">لغة الإدخال الأساسية</div>
-        <select id="editSourceLang" name="source_lang" required>
-          <option value="ar">العربية</option>
-          <option value="en">English</option>
-        </select>
-
-        <div class="subTitle">الاسم والوصف الأساسي</div>
-
-        <div class="row2">
-          <input id="editTitle" name="title" required placeholder="اسم المنتج"/>
-          <input id="editPrice" name="price" required placeholder="السعر" type="number" step="0.01" min="0"/>
-        </div>
-
-        <input id="editDescription" name="description" placeholder="وصف المنتج"/>
-
-        <div class="subTitle">ترجمة الاسم (اختياري)</div>
-
-        <div class="row2">
-          <input id="editTitleEn" name="title_en" placeholder="اسم المنتج (English)"/>
-          <input id="editTitleFr" name="title_fr" placeholder="اسم المنتج (Français)"/>
-        </div>
-
-        <input id="editTitleEs" name="title_es" placeholder="اسم المنتج (Español)"/>
-
-        <div class="subTitle">ترجمة الوصف (اختياري)</div>
-
-        <div class="row2">
-          <input id="editDescriptionEn" name="description_en" placeholder="وصف المنتج (English)"/>
-          <input id="editDescriptionFr" name="description_fr" placeholder="وصف المنتج (Français)"/>
-        </div>
-
-        <input id="editDescriptionEs" name="description_es" placeholder="وصف المنتج (Español)"/>
-
-        <div class="subTitle">معلومات إضافية</div>
-
-        <div class="row2">
-          <select id="editCategory" name="category" class="multiSelect" multiple required>
-            <option value="Home & Kitchen">Home & Kitchen البيت والمطبخ</option>
-            <option value="Toys">Toys الألعاب</option>
-            <option value="Electronics">Electronics كهربائيات</option>
-            <option value="Beauty">Beauty جمال</option>
-            <option value="Fashion">Fashion أزياء</option>
-          </select>
-          <input id="editStock" name="stock" placeholder="الستوك" type="number" step="1" min="0"/>
-        </div>
-
-        <div class="hint">يمكنك اختيار أكثر من فئة. إذا ما بدك تغيّر الصورة، اترك الحقل فاضي.</div>
-        <input id="editImage" type="file" name="image" accept="image/*"/>
-
-        <button class="btnA" type="submit">حفظ التعديل</button>
-        <div class="hint" id="editMsg"></div>
-      </form>
-
-      <!-- PRODUCTS LIST -->
-      <div class="listHead">
-        <h2 style="margin:0;">المنتجات</h2>
-        <button id="refresh" class="btnB" type="button">عرض المنتجات</button>
-      </div>
-
-      <div id="list" class="listBox"></div>
+      <button id="refresh" class="btn3">عرض آخر المنتجات</button>
+      <div id="list" style="margin-top:10px"></div>
     </section>
 
   </main>

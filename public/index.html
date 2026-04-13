@@ -3,59 +3,26 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>VELORÉ</title>
+  <title>NovaCart</title>
   <link rel="stylesheet" href="/styles.css"/>
 </head>
 <body>
 
   <header class="top">
-    <div class="brand">
-      <img src="/image/logo.jpg" class="logo" alt="Logo">
-      <span>VELORÉ</span>
-    </div>
-
-    <div class="topline" id="topline">
-      🚚 توصيل سريع • 💵 دفع عند الاستلام • 🔒 آمن
-    </div>
+    <div class="brand">NovaCart</div>
+    <div class="topline">🚚 توصيل سريع • 💵 دفع عند الاستلام • 🔒 آمن</div>
 
     <div class="actions">
       <input id="search" placeholder="إبحث عن المنتج..." />
-      <button id="goCart">
-        🛒 <span id="cartLabel">السلة</span> (<span id="cartCount">0</span>)
-      </button>
-    </div>
-
-    <!-- ⋮ Menu -->
-    <div class="moreMenu">
-      <button id="moreBtn" class="moreBtn" type="button" aria-label="menu">⋮</button>
-
-      <div id="moreDropdown" class="moreDropdown" hidden>
-        <div class="menuSectionTitle">Language</div>
-        <button class="menuItem" type="button" data-lang="ar">🇦🇪 عربي</button>
-        <button class="menuItem" type="button" data-lang="en">🇬🇧 English</button>
-        <button class="menuItem" type="button" data-lang="fr">🇫🇷 Français</button>
-        <button class="menuItem" type="button" data-lang="es">🇪🇸 Español</button>
-
-        <div class="menuDivider"></div>
-
-        <a class="menuLink" href="tel:+96171660580">📞 +961 71 660 580</a>
-
-        <a class="menuLink" href="mailto:velorevelore1@gmail.com" target="_blank" rel="noopener" onclick="window.open(this.href, '_blank'); return false;">✉️ velorevelore1@gmail.com</a>
-
-        <!-- ✅ WhatsApp Direct -->
-        <a class="menuLink" href="https://wa.me/96171660580" target="_blank" rel="noopener" onclick="window.open(this.href, '_blank'); return false;">💬 WhatsApp</a>
-
-        <a class="menuLink" href="https://www.instagram.com/velore.v/" target="_blank" rel="noopener" onclick="window.open(this.href, '_blank'); return false;">📸 Instagram</a>
-
-        <a class="menuLink" href="https://facebook.com/YOUR_FACEBOOK" target="_blank" rel="noopener" onclick="window.open(this.href, '_blank'); return false;">👍 Facebook</a>
-      </div>
+      <button id="goCart">🛒 السلة (<span id="cartCount">0</span>)</button>
     </div>
 
     <nav class="cats" id="cats"></nav>
   </header>
 
   <main class="wrap">
-    <!-- Slider -->
+
+    <!-- ✅ Slider auto (images come from /api/banners) -->
     <section class="hero" id="hero">
       <div class="slider" id="slider"></div>
       <div class="dots" id="dots"></div>
@@ -63,36 +30,29 @@
 
     <!-- Products -->
     <section class="grid" id="grid"></section>
+
   </main>
 
   <!-- Cart Modal -->
   <dialog id="cartModal" class="modal">
     <div class="modalHead">
-      <b id="cartModalTitle">سلة VELORÉ</b>
+      <b>سلة NovaCart</b>
       <button id="closeCart">✖</button>
     </div>
 
     <div id="cartItems"></div>
-
-    <div class="total">
-      <span id="totalLabel">المجموع:</span> <span id="total">0</span>$
-    </div>
+    <div class="total">المجموع: <span id="total">0</span>$</div>
 
     <form id="checkout" class="checkout">
-      <input id="fieldName" required name="name" placeholder="الاسم" />
-      <input id="fieldPhone" required name="phone" placeholder="رقم الهاتف" />
-      <input id="fieldAddress" required name="address" placeholder="العنوان" />
-
-      <!-- ✅ NEW: Email -->
-      <input id="fieldEmail" required name="email" placeholder="البريد الإلكتروني" />
-
-      <select id="fieldPayment" name="payment" required>
-        <option id="payChoose" value="">طريقة الدفع</option>
-        <option id="payCOD" value="COD">الدفع عند الاستلام</option>
+      <input required name="name" placeholder="الاسم" />
+      <input required name="phone" placeholder="رقم الهاتف" />
+      <input required name="address" placeholder="العنوان" />
+      <select name="payment" required>
+        <option value="">طريقة الدفع</option>
+        <option value="COD">الدفع عند الاستلام</option>
       </select>
-
-      <button id="btnConfirm" type="submit">تأكيد الطلب</button>
-      <small class="note" id="noteConfirm">سيتم التواصل معكم عبر واتساب لتأكيد الطلب قبل التوصيل (خلي عينك عالإيميل).</small>
+      <button type="submit">تأكيد الطلب</button>
+      <small class="note">سيتم التواصل لتأكيد الطلب قبل الشحن.</small>
     </form>
   </dialog>
 

@@ -1,24 +1,12 @@
 *{box-sizing:border-box}
-body{
-  margin:0;
-  font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;
-
-  background: #HHHHHH; /* WHITE */
-  color:#2e2e2e;
-}
+body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;background:#0b0f1a;color:#fff}
 .wrap{max-width:1150px;margin:0 auto;padding:18px}
-.top{
-  background:#0a0a0c;
-  border-bottom:1px solid #d9cfc2;
-  color:#FFFFFF;
-}
+.top{padding:14px 18px;border-bottom:1px solid rgba(255,255,255,.12);position:sticky;top:0;background:#0b0f1a;z-index:5}
 .brand{font-weight:900;font-size:20px}
 .topline{opacity:.85;margin-top:6px}
 .actions{display:flex;gap:10px;margin-top:10px;flex-wrap:wrap}
 .actions input{flex:1;min-width:180px;padding:12px;border-radius:12px;border:1px solid rgba(255,255,255,.18);background:rgba(0,0,0,.25);color:#fff}
-.actions button{padding:12px 14px;border-radius:12px;border:1px solid rgba(255,255,255,.18);background: linear-gradient(135deg, #c6a14a, #e6c77a);
-color: #000;
-border: non;cursor:pointer;font-weight:800}
+.actions button{padding:12px 14px;border-radius:12px;border:1px solid rgba(255,255,255,.18);background:rgba(255,122,0,.9);cursor:pointer;font-weight:800}
 .cats{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
 .cats button{padding:8px 12px;border-radius:999px;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.06);color:#fff;cursor:pointer}
 .hero{padding:18px;border:1px solid rgba(255,255,255,.12);border-radius:18px;background:rgba(255,255,255,.06)}
@@ -26,13 +14,12 @@ border: non;cursor:pointer;font-weight:800}
 .hero p{margin:0;opacity:.9}
 .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:14px}
 @media(max-width:1000px){.grid{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:520px){.grid{grid-template-columns:repeat(3,1fr);gap:8px}}
+@media(max-width:520px){.grid{grid-template-columns:1fr}}
 .card{border:1px solid rgba(255,255,255,.12);border-radius:18px;background:rgba(255,255,255,.06);overflow:hidden;display:flex;flex-direction:column}
 .card img{width:100%;aspect-ratio:1/1;object-fit:cover}
 .card .p{padding:12px;display:flex;flex-direction:column;gap:6px}
 .price{font-weight:900}
-.card button{margin-top:auto;border:0;padding:12px;background: linear-gradient(135deg, #c6a14a, #e6c77a);
-color: #000;;cursor:pointer;font-weight:900}
+.card button{margin-top:auto;border:0;padding:12px;background:#ff7a00;cursor:pointer;font-weight:900}
 .modal{width:min(560px,92vw);border:1px solid rgba(255,255,255,.16);border-radius:18px;background:#0b0f1a;color:#fff;padding:14px}
 .modal::backdrop{background:rgba(0,0,0,.6)}
 .modalHead{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
@@ -89,99 +76,7 @@ color: #000;;cursor:pointer;font-weight:900}
 }
 
 .logo {
-  width: 100px;
-  height: 100px;
+  width: 80px;
+  height: 80px;
   object-fit: contain;
-}
-
-/* ===== 3-dots menu ===== */
-.moreMenu{
-  position:absolute;
-  top:12px;
-  left:12px; /* الزاوية اليسرى */
-  z-index:20;
-}
-
-.moreBtn{
-  width:40px;
-  height:40px;
-  border-radius:12px;
-  border:1px solid rgba(255,255,255,.18);
-  background:rgba(255,255,255,.06);
-  color:#fff;
-  cursor:pointer;
-  font-size:22px;
-  line-height:1;
-}
-
-.moreDropdown{
-  margin-top:8px;
-  width:220px;
-  border-radius:14px;
-  border:1px solid rgba(255,255,255,.18);
-  background:#0a0a0c;
-  padding:10px;
-  box-shadow:0 10px 30px rgba(0,0,0,.35);
-}
-
-.menuSectionTitle{
-  opacity:.8;
-  font-size:12px;
-  margin:4px 0 8px;
-}
-
-.menuItem{
-  width:100%;
-  text-align:right;
-  padding:10px 10px;
-  border-radius:12px;
-  border:0;
-  background:rgba(255,255,255,.06);
-  color:#fff;
-  cursor:pointer;
-  font-weight:800;
-  margin-bottom:6px;
-}
-
-.menuItem:hover{
-  background:rgba(255,255,255,.12);
-}
-
-.menuDivider{
-  height:1px;
-  background:rgba(255,255,255,.12);
-  margin:10px 0;
-}
-
-.menuLink{
-  display:block;
-  padding:10px 10px;
-  border-radius:12px;
-  color:#fff;
-  text-decoration:none;
-  background:rgba(255,255,255,.06);
-  margin-bottom:6px;
-  font-weight:800;
-}
-
-.menuLink:hover{
-  background:rgba(255,255,255,.12);
-}
-
-/* Move 3-dots menu depending on direction */
-html[dir="rtl"] .moreMenu { left: 12px; right: auto; }
-html[dir="ltr"] .moreMenu { right: 12px; left: auto; }
-
-.remove-btn{
-  border:0;
-  background:transparent;
-  cursor:pointer;
-  font-size:20px;
-  color:#FFFFFF;   /* أبيض واضح */
-  margin-left:8px;
-}
-
-.remove-btn:hover{
-  color:#ff0000;
-  transform:scale(1.1);
 }
