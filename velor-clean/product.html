@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>VELORÉ</title>
+<link rel="stylesheet" href="/styles.css">
+</head>
+
+<body>
+
+<div class="wrap">
+  <div id="product"></div>
+</div>
+
+<script>
+const API_BASE = "";
+const id = window.location.pathname.split("/").pop();
+const currentLang = localStorage.getItem("lang") || "ar";
+
+function getTranslatedTitle(p){
+  if(currentLang==="en") return p.title_en || p.title;
+  if(currentLang==="fr") return p.title_fr || p.title;
+  if(currentLang==="es") return p.title_es || p.title;
+  return p.title;
+}
+
+function getTranslatedDescription(p){
+  if(currentLang==="en") return p.description_en || p.description;
+  if(currentLang==="fr") return p.description_fr || p.description;
+  if(currentLang==="es") return p.description_es || p.description;
+  return p.description;
+}
+
+function applyDirection(){
+  document.documentElement.lang = currentLang;
+  document.documentElement.dir = currentLang==="ar" ? "rtl" : "ltr";
+}
+
+async function loadProduct(){
+  applyDirection();
+
+  const res = await fetch(API_BASE + "/api/products");
+  const products = await res.json();
+
+  const p = products.find(x => x.id == id);
+
+  if(!p){
+    document.title="VELORÉ | Product";
+    document.getElementById("product").innerHTML="Product not found";
+    return;
+  }
+
+  const title = getTranslatedTitle(p);
+  const description = getTranslatedDescription(p);
+
+  document.title = `VELORÉ | ${title}`;
+
+  document.getElementById("product").innerHTML = `
+  <div style="max-width:700px;margin:auto;padding:20px;text-align:center">
+    <img src="${p.image}" style="width:100%;max-width:420px;border-radius:14px">
+    <h2 style="margin-top:18px">${title}</h2>
+    ${description ? `<p style="opacity:.85;line-height:1.8">${description}</p>` : ""}
+    <h3 style="margin-top:14px">${p.price}$</h3>
+  </div>
+  `;
+}
+
+loadProduct();
+</script>
+
+</body>
+</html>
